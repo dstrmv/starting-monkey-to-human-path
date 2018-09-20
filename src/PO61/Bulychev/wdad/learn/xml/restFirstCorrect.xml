@@ -15,7 +15,7 @@
             <totalcost>2200</totalcost>
         </order>
         <order>
-            <officiant firstname="sidor" secondname="sidorov"/>
+            <officiant firstname="ivan" secondname="ivanov"/>
             <item name="vodka" cost="500"/>
             <item name="whiskey" cost="750"/>
             <item cost="300"/>
