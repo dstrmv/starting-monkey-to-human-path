@@ -3,10 +3,14 @@ package PO61.Bulychev.wdad.learn.xml;
 import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -107,6 +111,30 @@ public class XmlTask {
 
     public void removeDay(Calendar calendar) {
 
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        LocalDate localDate = LocalDate.of(year, month, day);
+
+        //restaurant.removeDate(localDate);
+
+        StringWriter writer = new StringWriter();
+        try {
+            JAXBContext context = JAXBContext.newInstance(
+                    Restaurant.class,
+                    RestDate.class,
+                    Officiant.class,
+                    Order.class,
+                    Item.class
+            );
+            Marshaller marshaller = context.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            marshaller.marshal(restaurant, writer);
+            System.out.println(writer.toString());
+
+        } catch (JAXBException e) {
+            e.printStackTrace();
+        }
     }
 
     public void changeOfficiantName(String oldFirstName, String oldSecondName,

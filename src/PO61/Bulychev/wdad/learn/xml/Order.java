@@ -1,12 +1,27 @@
 package PO61.Bulychev.wdad.learn.xml;
 
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlType;
+import java.util.ArrayList;
 import java.util.List;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Order {
-
+    @XmlElement
     private Officiant officiant;
+    @XmlElement(name = "item")
     private List<Item> items;
+    @XmlElement(name = "totalcost")
     private double totalCost;
+
+    public Order() {
+        this.officiant = null;
+        items = new ArrayList<>();
+        totalCost = 0;
+    }
 
     public Order(Officiant officiant, List<Item> items, double totalCost) {
         this.officiant = officiant;

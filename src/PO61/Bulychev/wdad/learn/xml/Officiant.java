@@ -1,9 +1,17 @@
 package PO61.Bulychev.wdad.learn.xml;
 
+import javax.xml.bind.annotation.*;
+
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Officiant {
 
+    @XmlAttribute(name = "firstname")
     private String firstName;
+    @XmlAttribute(name = "secondname")
     private String secondName;
+
+    public Officiant() {
+    }
 
     public Officiant(String firstName, String secondName) {
         this.firstName = firstName;

@@ -8,9 +8,9 @@ public class TestXmlTask {
         XmlTask task = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restFirstCorrect.xml");
 
         Calendar calendar =  Calendar.getInstance();
-        calendar.set(2010, 01, 02);
-        double earn = task.earningsTotal("sidorov", calendar);
-        System.out.println(earn);
+        calendar.set(2010, 1, 2);
+
+        task.removeDay(calendar);
         //try {
        //     XmlTask task2 = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restSecondIncorrect.xml");
       //  } catch (Exception e) {

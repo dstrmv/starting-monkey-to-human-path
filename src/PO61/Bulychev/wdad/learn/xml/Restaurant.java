@@ -1,10 +1,15 @@
 package PO61.Bulychev.wdad.learn.xml;
 
+import javax.xml.bind.annotation.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Restaurant {
 
+    @XmlElement(name = "date")
     private List<RestDate> dates;
 
     public Restaurant() {
@@ -25,6 +30,14 @@ public class Restaurant {
 
     public void addDate(RestDate restDate) {
         dates.add(restDate);
+    }
+
+    public void removeDate(LocalDate localDate) {
+        for (RestDate restDate : dates) {
+            if (restDate.getDate().equals(localDate)) {
+                dates.remove(restDate);
+            }
+        }
     }
 
     @Override
