@@ -46,4 +46,15 @@ public class Order {
         this.items.add(item);
     }
 
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("order: ").append("\n");
+        sb.append(officiant).append("\n");
+        for (Item item : items) {
+            sb.append(item).append("\n");
+        }
+        sb.append("totalcost: ").append(totalCost).append("\n");
+        return sb.toString();
+    }
 }

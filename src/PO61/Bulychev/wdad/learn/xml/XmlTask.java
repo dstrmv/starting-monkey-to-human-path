@@ -1,9 +1,6 @@
 package PO61.Bulychev.wdad.learn.xml;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -21,24 +18,70 @@ public class XmlTask {
 
     public XmlTask(String path) throws ParserConfigurationException, IOException, SAXException {
 
-        DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-        Document document = documentBuilder.parse(path);
+        restaurant = new Restaurant();
+        List<Item> itemList;
+        List<Order> orderList;
+        List<RestDate> dateList;
 
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        Document document = builder.parse(path);
 
         NodeList dateElems = document.getDocumentElement().getElementsByTagName("date");
-        for (int i = 0; i < dateElems.getLength(); i++) {
-            Node date = dateElems.item(i);
-            NamedNodeMap attributes = date.getAttributes();
-            int day = Integer.parseInt(attributes.getNamedItem("day").getNodeValue());
-            int month = Integer.parseInt(attributes.getNamedItem("month").getNodeValue());
-            int year = Integer.parseInt(attributes.getNamedItem("year").getNodeValue());
 
-            LocalDate restDate = LocalDate.of(year, month, day);
+        //dates cycle
+        for (int i = 0; i < dateElems.getLength(); i++) {
+            Element date = (Element) dateElems.item(i);
+
+            int day = Integer.parseInt(date.getAttribute("day"));
+            int month = Integer.parseInt(date.getAttribute("month"));
+            int year = Integer.parseInt(date.getAttribute("year"));
+
+            LocalDate restLocalDate = LocalDate.of(year, month, day);
+            NodeList orders = date.getElementsByTagName("order");
+
+            orderList = new ArrayList<>();
+
+            // orders cycle
+            for (int j = 0; j < orders.getLength(); j++) {
+                Element orderElement = (Element) orders.item(j);
+
+                NodeList items = orderElement.getElementsByTagName("item");
+                Element officiantElement = (Element) orderElement.getElementsByTagName("officiant").item(0);
+
+                String officiantFirstName = officiantElement.getAttribute("firstname");
+                String officiantSecondName = officiantElement.getAttribute("secondname");
+                Officiant officiant = new Officiant(officiantFirstName, officiantSecondName);
+
+                itemList = new ArrayList<>();
+
+                // items cycle
+                for (int k = 0; k < items.getLength(); k++) {
+                    Element item = (Element) items.item(k);
+                    String itemName = item.getAttribute("name");
+                    double itemCost = Double.parseDouble(item.getAttribute("cost"));
+                    itemList.add(new Item(itemName, itemCost));
+                }
+
+                NodeList totalCostList = orderElement.getElementsByTagName("totalcost");
+
+                Order order;
+                if (totalCostList.getLength() != 0) {
+                    Element totalCostElement = (Element) totalCostList.item(0);
+                    double totalCost = Double.parseDouble(totalCostElement.getTextContent());
+                    order = new Order(officiant, itemList, totalCost);
+                } else {
+                    order = new Order(officiant, itemList);
+                }
+                orderList.add(order);
+            }
+
+            RestDate restDate = new RestDate(restLocalDate, orderList);
+            restaurant.addDate(restDate);
 
         }
 
-        //System.out.println(restDates.size());
+        System.out.println(restaurant);
 
     }
 
@@ -46,7 +89,6 @@ public class XmlTask {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
-
 
 
         return 0;

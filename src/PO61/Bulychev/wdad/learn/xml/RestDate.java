@@ -29,4 +29,14 @@ public class RestDate {
     public void setOrders(List<Order> orders) {
         this.orders = orders;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("date: ").append(date.toString()).append("\n");
+        for (Order order : orders) {
+            sb.append(order).append("\n");
+        }
+        return sb.toString();
+    }
 }

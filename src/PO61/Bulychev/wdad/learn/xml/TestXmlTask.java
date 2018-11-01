@@ -5,11 +5,11 @@ public class TestXmlTask {
 
         XmlTask task = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restFirstCorrect.xml");
 
-        try {
-            XmlTask task2 = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restSecondIncorrect.xml");
-        } catch (Exception e) {
-            System.out.println("EXCEPTION: ERRORS IN XML");
-        }
+        //try {
+       //     XmlTask task2 = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restSecondIncorrect.xml");
+      //  } catch (Exception e) {
+      //      System.out.println("EXCEPTION: ERRORS IN XML");
+      //  }
 
     }
 }

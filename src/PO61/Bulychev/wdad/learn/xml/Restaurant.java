@@ -26,4 +26,13 @@ public class Restaurant {
     public void addDate(RestDate restDate) {
         dates.add(restDate);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (RestDate date : dates) {
+            sb.append(date).append("\n");
+        }
+        return sb.toString();
+    }
 }
