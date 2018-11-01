@@ -80,18 +80,29 @@ public class XmlTask {
             restaurant.addDate(restDate);
 
         }
-
-        System.out.println(restaurant);
-
     }
 
-    public int earningsTotal(String officiantSecondName, Calendar calendar) {
+    public double earningsTotal(String officiantSecondName, Calendar calendar) {
+
+        double earningsTotal = 0;
+
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
 
+        LocalDate date = LocalDate.of(year, month, day);
 
-        return 0;
+        for (RestDate restDate: restaurant.getDates()) {
+            if (restDate.getDate().equals(date)) {
+                for (Order order: restDate.getOrders()) {
+                    if (order.getOfficiant().getSecondName().equals(officiantSecondName)) {
+                        earningsTotal += order.getTotalCost();
+                    }
+                }
+            }
+        }
+
+        return earningsTotal;
     }
 
     public void removeDay(Calendar calendar) {
