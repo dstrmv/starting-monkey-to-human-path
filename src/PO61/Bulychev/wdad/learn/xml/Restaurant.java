@@ -33,11 +33,7 @@ public class Restaurant {
     }
 
     public void removeDate(LocalDate localDate) {
-        for (RestDate restDate : dates) {
-            if (restDate.getDate().equals(localDate)) {
-                dates.remove(restDate);
-            }
-        }
+        dates.remove(new RestDate(localDate));
     }
 
     @Override

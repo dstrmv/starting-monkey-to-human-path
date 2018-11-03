@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RestDate {
     @XmlTransient
@@ -13,14 +14,17 @@ public class RestDate {
     private List<Order> orders;
 
     public RestDate() {
-        date = LocalDate.now();
-        orders = new ArrayList<>();
+        this(LocalDate.now(), new ArrayList<>());
     }
 
     public RestDate(LocalDate date, List<Order> orders) {
 
         this.date = date;
         this.orders = orders;
+    }
+
+    public RestDate(LocalDate date) {
+        this(date, new ArrayList<>());
     }
 
     public LocalDate getDate() {
@@ -58,9 +62,22 @@ public class RestDate {
     public int getMonth() {
         return date.getMonthValue();
     }
+
     @XmlAttribute(name = "year")
     public int getYear() {
         return date.getYear();
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (!(obj instanceof RestDate)) {
+            return false;
+        }
+
+        RestDate rd = (RestDate) obj;
+        if (this.getDate().equals(rd.date)) {
+            return true;
+        }
+        return false;
+    }
 }

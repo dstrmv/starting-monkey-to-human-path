@@ -9,8 +9,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.IOException;
-import java.io.StringWriter;
+import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -18,10 +17,12 @@ import java.util.List;
 
 public class XmlTask {
 
-    Restaurant restaurant;
+    private Restaurant restaurant;
+    private String path;
 
     public XmlTask(String path) throws ParserConfigurationException, IOException, SAXException {
 
+        this.path = path;
         restaurant = new Restaurant();
         List<Item> itemList;
         List<Order> orderList;
@@ -116,9 +117,9 @@ public class XmlTask {
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         LocalDate localDate = LocalDate.of(year, month, day);
 
-        //restaurant.removeDate(localDate);
+        restaurant.removeDate(localDate);
+        File file = new File(path);
 
-        StringWriter writer = new StringWriter();
         try {
             JAXBContext context = JAXBContext.newInstance(
                     Restaurant.class,
@@ -129,8 +130,10 @@ public class XmlTask {
             );
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(restaurant, writer);
-            System.out.println(writer.toString());
+            marshaller.setProperty(Marshaller.JAXB_FRAGMENT, Boolean.TRUE);
+            marshaller.setProperty("com.sun.xml.internal.bind.xmlHeaders",
+                    "<?xml version=\"1.0\" encoding=\"UTF-8\" ?>\n<!DOCTYPE restaurant SYSTEM \".\\restaurant.dtd\">");
+            marshaller.marshal(restaurant, file);
 
         } catch (JAXBException e) {
             e.printStackTrace();
