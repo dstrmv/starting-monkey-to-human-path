@@ -68,16 +68,16 @@ public class XmlTask {
                     itemList.add(new Item(itemName, itemCost));
                 }
 
-                NodeList totalCostList = orderElement.getElementsByTagName("totalcost");
-
+                //NodeList totalCostList = orderElement.getElementsByTagName("totalcost");
                 Order order;
-                if (totalCostList.getLength() != 0) {
-                    Element totalCostElement = (Element) totalCostList.item(0);
-                    double totalCost = Double.parseDouble(totalCostElement.getTextContent());
-                    order = new Order(officiant, itemList, totalCost);
-                } else {
+
+                //if (totalCostList.getLength() != 0) {
+                //    Element totalCostElement = (Element) totalCostList.item(0);
+                //    double totalCost = Double.parseDouble(totalCostElement.getTextContent());
+                //    order = new Order(officiant, itemList, totalCost);
+               // } else {
                     order = new Order(officiant, itemList);
-                }
+               // }
                 orderList.add(order);
             }
 
@@ -120,6 +120,20 @@ public class XmlTask {
         restaurant.removeDate(localDate);
         File file = new File(path);
 
+        marshal(file);
+    }
+
+    public void changeOfficiantName(String oldFirstName, String oldSecondName,
+                                    String newFirstName, String newSecondName) {
+
+        restaurant.changeOfficiantName(oldFirstName, oldSecondName, newFirstName, newSecondName);
+        File file = new File(path);
+
+        marshal(file);
+
+    }
+
+    private void marshal(File file) {
         try {
             JAXBContext context = JAXBContext.newInstance(
                     Restaurant.class,
@@ -138,11 +152,6 @@ public class XmlTask {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
-    }
-
-    public void changeOfficiantName(String oldFirstName, String oldSecondName,
-                                    String newFirstName, String newSecondName) {
-
     }
 
 }

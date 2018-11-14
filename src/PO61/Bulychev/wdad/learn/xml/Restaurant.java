@@ -36,6 +36,19 @@ public class Restaurant {
         dates.remove(new RestDate(localDate));
     }
 
+    public void changeOfficiantName(String oldFirstName, String oldSecondName,
+                                    String newFirstName, String newSecondName) {
+        for (RestDate date: dates) {
+            for (Order o: date.getOrders()) {
+                Officiant of = o.getOfficiant();
+                if (of.getFirstName().equals(oldFirstName) && of.getSecondName().equals(oldSecondName)) {
+                    of.setFirstName(newFirstName);
+                    of.setSecondName(newSecondName);
+                }
+            }
+        }
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
