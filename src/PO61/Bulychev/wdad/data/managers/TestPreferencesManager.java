@@ -9,5 +9,9 @@ public class TestPreferencesManager {
         System.out.println(manager.getPolicyPathProperty());
         System.out.println(manager.getUseCodeBaseOnlyProperty());
         System.out.println(manager.getClassProviderProperty());
+        manager.setCreateRegistryProperty("no");
+        manager.setRegistryPortProperty("1234");
+        manager.setPolicyPathProperty("client2.policy");
+        System.out.println(manager.getCreateRegistryProperty());
     }
 }
