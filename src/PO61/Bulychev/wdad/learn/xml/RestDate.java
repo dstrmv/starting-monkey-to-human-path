@@ -12,6 +12,9 @@ public class RestDate {
     private LocalDate date;
     @XmlElement(name = "order")
     private List<Order> orders;
+    private int year;
+    private int month;
+    private int day;
 
     public RestDate() {
         this(LocalDate.now(), new ArrayList<>());
@@ -21,6 +24,9 @@ public class RestDate {
 
         this.date = date;
         this.orders = orders;
+        this.year = date.getYear();
+        this.month = date.getMonthValue();
+        this.day = date.getDayOfMonth();
     }
 
     public RestDate(LocalDate date) {
@@ -34,6 +40,25 @@ public class RestDate {
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public void setDate(int year, int month, int day) {
+        this.date = LocalDate.of(year, month, day);
+    }
+
+    public void setYear(int year) {
+        this.date = this.date.withYear(year);
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.date = this.date.withMonth(month);
+        this.month = month;
+    }
+
+    public void setDay (int day) {
+        this.date = this.date.withDayOfMonth(day);
+        this.day = day;
     }
 
     public List<Order> getOrders() {
@@ -53,19 +78,20 @@ public class RestDate {
         }
         return sb.toString();
     }
- // todo этb 3 метода делаются приватными
+
+    // todo этb 3 метода делаются приватными
     @XmlAttribute(name = "day")
-    public int getDay() {
+    private int getDay() {
         return date.getDayOfMonth();
     }
 
     @XmlAttribute(name = "month")
-    public int getMonth() {
+    private int getMonth() {
         return date.getMonthValue();
     }
 
     @XmlAttribute(name = "year")
-    public int getYear() {
+    private int getYear() {
         return date.getYear();
     }
 
@@ -76,9 +102,6 @@ public class RestDate {
         }
 
         RestDate rd = (RestDate) obj;
-        if (this.getDate().equals(rd.date)) {
-            return true;
-        }
-        return false;
+        return this.getDate().equals(rd.date);
     }
 }
