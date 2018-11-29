@@ -27,6 +27,7 @@ public class RestDate {
         this(date, new ArrayList<>());
     }
 
+    //todo в следующих двух методах должны быть логика либо создания LocalDate из дня, месяца, года, либо изменение дня месяца и года по значению LocalDate
     public LocalDate getDate() {
         return date;
     }
@@ -52,7 +53,7 @@ public class RestDate {
         }
         return sb.toString();
     }
-
+ // todo этb 3 метода делаются приватными
     @XmlAttribute(name = "day")
     public int getDay() {
         return date.getDayOfMonth();
