@@ -10,8 +10,9 @@ public class TestXmlTask {
         Calendar calendar =  Calendar.getInstance();
         calendar.set(2010, 1, 2);
 
-        task.removeDay(calendar);
-        task.changeOfficiantName("ivan", "ivanov", "sidor", "sidorov");
+
+        //task.removeDay(calendar);
+        task.changeOfficiantName("sidor", "sidorov", "ivan", "ivanov");
 
         //try {
        //     XmlTask task2 = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restSecondIncorrect.xml");

@@ -1,38 +1,30 @@
 package PO61.Bulychev.wdad.learn.xml;
 
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
+import javax.xml.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
+@XmlType(propOrder = {"officiant", "items", "totalCost"})
 public class Order {
-    @XmlElement
+
     private Officiant officiant;
-    @XmlElement(name = "item")
     private List<Item> items;
-    @XmlElement(name = "totalcost")
+
     private double totalCost;
 
     public Order() {
-        this.officiant = null;
-        items = new ArrayList<>();
-        totalCost = 0;
-    }
-
-    public Order(Officiant officiant, List<Item> items, double totalCost) {
-        this.officiant = officiant;
-        this.items = items;
-        this.totalCost = totalCost;
+        this(null, new ArrayList<>());
     }
 
     public Order(Officiant officiant, List<Item> items) {
-        this(officiant, items, items.stream().mapToDouble(Item::getCost).sum());
+        this.officiant = officiant;
+        this.items = items;
+        totalCost = items.stream().mapToDouble(Item::getCost).sum();
     }
 
+    @XmlElement(name = "officiant")
     public Officiant getOfficiant() {
         return officiant;
     }
@@ -41,24 +33,31 @@ public class Order {
         this.officiant = officiant;
     }
 
+    @XmlElement(name = "item")
     public List<Item> getItems() {
         return items;
     }
 
     public void setItems(List<Item> items) {
         this.items = items;
+        this.totalCost = items.stream()
+                .mapToDouble(Item::getCost)
+                .sum();
     }
 
+    @XmlElement(name = "totalcost")
     public double getTotalCost() {
         return totalCost;
     }
 
     public void setTotalCost(double totalCost) {
         this.totalCost = totalCost;
+
     }
 
     public void addItem(Item item) {
         this.items.add(item);
+        totalCost += item.getCost();
     }
 
     @Override
@@ -69,7 +68,7 @@ public class Order {
         for (Item item : items) {
             sb.append(item).append("\n");
         }
-        sb.append("totalcost: ").append(totalCost).append("\n");
+        sb.append("totalcost: ").append(getTotalCost()).append("\n");
         return sb.toString();
     }
 }
