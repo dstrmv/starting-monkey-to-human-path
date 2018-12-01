@@ -7,9 +7,12 @@ import java.util.List;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlType(propOrder = {"officiant", "items", "totalCost"})
+
+
 public class Order {
 
     private Officiant officiant;
+
     private List<Item> items;
 
     private double totalCost;
@@ -38,6 +41,7 @@ public class Order {
         return items;
     }
 
+
     public void setItems(List<Item> items) {
         this.items = items;
         this.totalCost = items.stream()
@@ -47,11 +51,18 @@ public class Order {
 
     @XmlElement(name = "totalcost")
     public double getTotalCost() {
+        if (totalCost == 0) {
+            totalCost = items.stream()
+                    .mapToDouble(Item::getCost)
+                    .sum();
+        }
         return totalCost;
     }
 
     public void setTotalCost(double totalCost) {
-        this.totalCost = totalCost;
+        this.totalCost = items.stream()
+                .mapToDouble(Item::getCost)
+                .sum();
 
     }
 

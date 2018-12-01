@@ -6,7 +6,7 @@
             <officiant firstname="ivan" secondname="ivanov"/>
             <item cost="2000.0" name="cake"/>
             <item cost="200.0" name="tea"/>
-            <totalcost>0.0</totalcost>
+            <totalcost>2200.0</totalcost>
         </order>
         <order>
             <officiant firstname="petr" secondname="petrov"/>
@@ -21,7 +21,7 @@
             <item cost="750.0" name="whiskey"/>
             <item cost="300.0"/>
             <item cost="800.0"/>
-            <totalcost>0.0</totalcost>
+            <totalcost>2350.0</totalcost>
         </order>
     </date>
     <date day="2" month="1" year="2010">
@@ -29,7 +29,7 @@
             <officiant firstname="ivan" secondname="ivanov"/>
             <item cost="1000.0" name="ice-cream"/>
             <item cost="200.0" name="coffee"/>
-            <totalcost>0.0</totalcost>
+            <totalcost>1200.0</totalcost>
         </order>
         <order>
             <officiant firstname="petr" secondname="petrov"/>
@@ -46,7 +46,7 @@
         <order>
             <officiant firstname="ivan" secondname="ivanov"/>
             <item cost="500.0"/>
-            <totalcost>0.0</totalcost>
+            <totalcost>500.0</totalcost>
         </order>
     </date>
 </restaurant>
