@@ -23,6 +23,7 @@ public class XmlTask {
     public XmlTask(String path) throws ParserConfigurationException, IOException, SAXException {
 
         this.path = path;
+        //todo уж коли сделал - юзай unMarshal() для создания ресторана
         restaurant = new Restaurant();
         List<Item> itemList;
         List<Order> orderList;
