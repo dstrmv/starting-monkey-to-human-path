@@ -2,6 +2,7 @@ package PO61.Bulychev.wdad.data.managers;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
@@ -14,93 +15,90 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PreferencesManager {
     private static PreferencesManager ourInstance = new PreferencesManager();
 
     private String xmlpath = "src/PO61/Bulychev/wdad/resources/configuration/appconfig.xml";
-    Document document;
-    private static final String XPATH_CREATEREGISTRY_EXPR = "/appconfig/rmi/server/registry/createregistry/text()";
-    private static final String XPATH_REGISTRYADDRESS_EXPR = "/appconfig/rmi/server/registry/registryaddress/text()";
-    private static final String XPATH_REGISTRYPORT_EXPR = "/appconfig/rmi/server/registry/registryport/text()";
-    private static final String XPATH_CLIENTPOLICYPATH_EXPR = "/appconfig/rmi/client/policypath/text()";
-    private static final String XPATH_CLIENTUSECODEBASE_EXPR = "/appconfig/rmi/client/usecodebaseonly/text()";
-    private static final String XPATH_CLASSPROVIDER_EXPR = "/appconfig/rmi/classprovider/text()";
+    private XPathFactory xPathFactory;
+    private Document document;
+    private Map<String, String> propertyToXPath;
+
+    private PreferencesManager() {
+        loadxml(xmlpath);
+        xPathFactory = XPathFactory.newInstance();
+        propertyToXPath = new HashMap<>();
+        propertyToXPath.put("createregistry", "/appconfig/rmi/server/registry/createregistry/text()");
+        propertyToXPath.put("registryaddress", "/appconfig/rmi/server/registry/registryaddress/text()");
+        propertyToXPath.put("registryport", "/appconfig/rmi/server/registry/registryport/text()");
+        propertyToXPath.put("policypath", "/appconfig/rmi/client/policypath/text()");
+        propertyToXPath.put("usecodebaseonly", "/appconfig/rmi/client/usecodebaseonly/text()");
+        propertyToXPath.put("classprovider", "/appconfig/rmi/classprovider/text()");
+    }
 
     public static PreferencesManager getInstance() {
         return ourInstance;
     }
 
-    private PreferencesManager() {
-        loadxml(xmlpath);
-    }
-
     public String getCreateRegistryProperty() {
-        return getProperty(XPATH_CREATEREGISTRY_EXPR);
-    }
-
-    public String getRegistryAddressProperty() {
-        return getProperty(XPATH_REGISTRYADDRESS_EXPR);
-    }
-
-    public String getRegistryPortProperty() {
-        return getProperty(XPATH_REGISTRYPORT_EXPR);
-    }
-
-    public String getPolicyPathProperty() {
-        return getProperty(XPATH_CLIENTPOLICYPATH_EXPR);
-    }
-
-    public String getUseCodeBaseOnlyProperty() {
-        return getProperty(XPATH_CLIENTUSECODEBASE_EXPR);
-    }
-
-    public String getClassProviderProperty() {
-        return getProperty(XPATH_CLASSPROVIDER_EXPR);
+        return getProperty("createregistry");
     }
 
     public void setCreateRegistryProperty(String val) {
-        NodeList appconfig = document.getElementsByTagName("createregistry");
-        appconfig.item(0).setTextContent(val);
-        savexml();
+        setProperty("createregistry", val);
+    }
+
+    public String getRegistryAddressProperty() {
+        return getProperty("registryaddress");
     }
 
     public void setRegistryAddressProperty(String val) {
-        NodeList appconfig = document.getElementsByTagName("registryaddress");
-        appconfig.item(0).setTextContent(val);
-        savexml();
+        setProperty("registryaddress", val);
+    }
+
+    public String getRegistryPortProperty() {
+        return getProperty("registryport");
     }
 
     public void setRegistryPortProperty(String val) {
-        NodeList appconfig = document.getElementsByTagName("registryport");
-        appconfig.item(0).setTextContent(val);
-        savexml();
+        setProperty("registryport", val);
+    }
 
+    public String getPolicyPathProperty() {
+        return getProperty("policypath");
     }
 
     public void setPolicyPathProperty(String val) {
-        NodeList appconfig = document.getElementsByTagName("policypath");
-        appconfig.item(0).setTextContent(val);
-        savexml();
+        setProperty("policypath", val);
+    }
+
+    public String getUseCodeBaseOnlyProperty() {
+        return getProperty("usecodebaseonly");
     }
 
     public void setUseCodeBaseOnlyProperty(String val) {
-        NodeList appconfig = document.getElementsByTagName("uusecodebaseonly");
-        appconfig.item(0).setTextContent(val);
-        savexml();
+        setProperty("usecodebaseonly", val);
 
+    }
+
+    public String getClassProviderProperty() {
+        return getProperty("classprovider");
     }
 
     public void setClassProviderProperty(String val) {
-        NodeList appconfig = document.getElementsByTagName("classprovider");
-        appconfig.item(0).setTextContent(val);
+        setProperty("classprovider", val);
+    }
+
+    private void setProperty(String property, String value) {
+        getNode(property).setTextContent(value);
         savexml();
     }
 
-    private String getProperty(String xpathProperty) {
+    private String getProperty(String property) {
 
-        XPathFactory xPathFactory = XPathFactory.newInstance();
+        String xpathProperty = propertyToXPath.get(property);
         XPath xpath = xPathFactory.newXPath();
         String result = "";
         XPathExpression expr = null;
@@ -125,8 +123,6 @@ public class PreferencesManager {
         } catch (TransformerException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void loadxml(String path) {
@@ -134,9 +130,15 @@ public class PreferencesManager {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
             document = builder.parse(path);
+
         } catch (ParserConfigurationException | SAXException | IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private Node getNode(String property) {
+        NodeList appconfig = document.getElementsByTagName(property);
+        return appconfig.item(0);
     }
 
 }
