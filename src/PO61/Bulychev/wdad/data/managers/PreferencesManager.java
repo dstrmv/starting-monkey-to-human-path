@@ -91,12 +91,12 @@ public class PreferencesManager {
         setProperty("classprovider", val);
     }
 
-    private void setProperty(String property, String value) {
+    public void setProperty(String property, String value) {
         getNode(property).setTextContent(value);
         savexml();
     }
 
-    private String getProperty(String property) {
+    public String getProperty(String property) {
 
         String xpathProperty = propertyToXPath.get(property);
         XPath xpath = xPathFactory.newXPath();
