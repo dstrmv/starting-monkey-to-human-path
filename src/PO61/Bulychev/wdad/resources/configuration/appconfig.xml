@@ -4,10 +4,11 @@
     <rmi>
         <server>
             <registry>
-                <createregistry>no</createregistry>
+                <createregistry>yes</createregistry>
                 <registryaddress>localhost</registryaddress>
                 <registryport>1234</registryport>
             </registry>
+
         </server>
         <client>
             <policypath>client2.policy</policypath>

@@ -15,8 +15,7 @@ import javax.xml.transform.stream.StreamResult;
 import javax.xml.xpath.*;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class PreferencesManager {
     private static PreferencesManager ourInstance = new PreferencesManager();
@@ -24,18 +23,18 @@ public class PreferencesManager {
     private String xmlpath = "src/PO61/Bulychev/wdad/resources/configuration/appconfig.xml";
     private XPathFactory xPathFactory;
     private Document document;
-    //private Map<String, String> propertyToXPath;
+    private List<String> keys;
 
     private PreferencesManager() {
         loadxml(xmlpath);
         xPathFactory = XPathFactory.newInstance();
-//        propertyToXPath = new HashMap<>();
-//        propertyToXPath.put("createregistry", "/appconfig/rmi/server/registry/createregistry/text()");
-//        propertyToXPath.put("registryaddress", "/appconfig/rmi/server/registry/registryaddress/text()");
-//        propertyToXPath.put("registryport", "/appconfig/rmi/server/registry/registryport/text()");
-//        propertyToXPath.put("policypath", "/appconfig/rmi/client/policypath/text()");
-//        propertyToXPath.put("usecodebaseonly", "/appconfig/rmi/client/usecodebaseonly/text()");
-//        propertyToXPath.put("classprovider", "/appconfig/rmi/classprovider/text()");
+        keys = new ArrayList<>();
+        keys.add("appconfig/rmi/server/registry/createregistry");
+        keys.add("appconfig/rmi/server/registry/registryaddress");
+        keys.add("appconfig/rmi/server/registry/registryport");
+        keys.add("appconfig/rmi/client/policypath");
+        keys.add("appconfig/rmi/client/usecodebaseonly");
+        keys.add("appconfig/rmi/classprovider");
     }
 
     public static PreferencesManager getInstance() {
@@ -43,25 +42,58 @@ public class PreferencesManager {
     }
 
 
-    public void setProperty(String property, String value) {
-        getNode(property).setTextContent(value);
+    public void setProperty(String key, String value) {
+        getNode(key).setTextContent(value);
         savexml();
     }
 
-    public String getProperty(String property) {
+    public String getProperty(String key) {
+        return getNode(key).getTextContent();
+    }
 
-        //String xpathProperty = propertyToXPath.get(property);
+    public Properties getProperties() {
+        Properties properties = new Properties();
+        for (String key: keys) {
+            properties.setProperty(key, getProperty(key));
+        }
+        return properties;
+    }
+
+    public void setProperties(Properties properties) {
+        Set<String> strings = properties.stringPropertyNames();
+        for (String key: strings) {
+            setProperty(key, properties.getProperty(key));
+        }
+    }
+
+    public void addBindedObject(String name, String className) {
+        Element element = document.createElement("bindedobject");
+        element.setAttribute("name",name);
+        element.setAttribute("class", className);
+        document.getElementsByTagName("server").item(0).appendChild(element);
+        savexml();
+    }
+
+    public void removeBindedObject(String name) {
+        String xpathkey = "appconfig/rmi/server/bindedobject";
         XPath xpath = xPathFactory.newXPath();
-        String result = "";
         XPathExpression expr = null;
+        NodeList nodelist = null;
         try {
-            //expr = xpath.compile(xpathProperty);
-            expr = xpath.compile(property);
-            result = (String) expr.evaluate(document, XPathConstants.STRING);
+            expr = xpath.compile(xpathkey);
+            nodelist = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
+            Element element;
+            for (int i = 0; i < nodelist.getLength(); i++) {
+                element = (Element) nodelist.item(i);
+               if ( element.getAttribute("name").equals(name)) {
+                   element.getParentNode().removeChild(element);
+                   savexml();
+                   return;
+               }
+            }
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
-        return result;
     }
 
     private void savexml() {
@@ -89,10 +121,24 @@ public class PreferencesManager {
         }
     }
 
-    private Node getNode(String property) {
-        NodeList appconfig = document.getElementsByTagName(property);
-        return appconfig.item(0);
+    private Node getNode(String key) {
+        String xpathkey = key.replace('.', '/');
+        XPath xpath = xPathFactory.newXPath();
+        XPathExpression expr = null;
+        Node node = null;
+        try {
+            expr = xpath.compile(xpathkey);
+            node = (Node) expr.evaluate(document, XPathConstants.NODE);
+        } catch (XPathExpressionException e) {
+            e.printStackTrace();
+        }
+        if (node == null) {
+            throw new RuntimeException("key is not exist");
+        }
+        return node;
     }
+
+
 
 
     @Deprecated
