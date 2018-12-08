@@ -6,12 +6,12 @@
             <registry>
                 <createregistry>yes</createregistry>
                 <registryaddress>localhost</registryaddress>
-                <registryport>1234</registryport>
+                <registryport>1099</registryport>
             </registry>
 
         </server>
         <client>
-            <policypath>client2.policy</policypath>
+            <policypath>client.policy</policypath>
             <usecodebaseonly>yes</usecodebaseonly>
         </client>
         <classprovider>http://www.yourhost.free.ru/cp/cp.jar</classprovider>

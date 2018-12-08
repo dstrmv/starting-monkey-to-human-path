@@ -1,5 +1,6 @@
 package PO61.Bulychev.wdad.data.managers;
 
+import PO61.Bulychev.wdad.utils.PreferencesManagerConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,12 +30,12 @@ public class PreferencesManager {
         loadxml(xmlpath);
         xPathFactory = XPathFactory.newInstance();
         keys = new ArrayList<>();
-        keys.add("appconfig/rmi/server/registry/createregistry");
-        keys.add("appconfig/rmi/server/registry/registryaddress");
-        keys.add("appconfig/rmi/server/registry/registryport");
-        keys.add("appconfig/rmi/client/policypath");
-        keys.add("appconfig/rmi/client/usecodebaseonly");
-        keys.add("appconfig/rmi/classprovider");
+        keys.add(PreferencesManagerConstants.CREATE_REGISTRY);
+        keys.add(PreferencesManagerConstants.REGISTRY_ADDRESS);
+        keys.add(PreferencesManagerConstants.REGISTRY_PORT);
+        keys.add(PreferencesManagerConstants.POLICY_PATH);
+        keys.add(PreferencesManagerConstants.USE_CODEBASE_ONLY);
+        keys.add(PreferencesManagerConstants.CLASS_PROVIDER);
     }
 
     public static PreferencesManager getInstance() {
