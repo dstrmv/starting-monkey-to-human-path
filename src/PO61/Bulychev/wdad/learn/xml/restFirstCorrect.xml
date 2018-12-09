@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE restaurant SYSTEM ".\restaurant.dtd">
+<restaurant>
+    <date day="1" month="1" year="2010">
+        <order>
+            <officiant firstname="ivan" secondname="ivanov"/>
+            <item cost="2000.0" name="cake"/>
+            <item cost="200.0" name="tea"/>
+            <totalcost>2200.0</totalcost>
+        </order>
+        <order>
+            <officiant firstname="petr" secondname="petrov"/>
+            <item cost="1000.0" name="kotletki"/>
+            <item cost="1000.0" name="pyureshka"/>
+            <item cost="200.0" name="coffee"/>
+            <totalcost>2200.0</totalcost>
+        </order>
+        <order>
+            <officiant firstname="ivan" secondname="ivanov"/>
+            <item cost="500.0" name="vodka"/>
+            <item cost="750.0" name="whiskey"/>
+            <item cost="300.0"/>
+            <item cost="800.0"/>
+            <totalcost>2350.0</totalcost>
+        </order>
+    </date>
+    <date day="2" month="1" year="2010">
+        <order>
+            <officiant firstname="ivan" secondname="ivanov"/>
+            <item cost="1000.0" name="ice-cream"/>
+            <item cost="200.0" name="coffee"/>
+            <totalcost>1200.0</totalcost>
+        </order>
+        <order>
+            <officiant firstname="petr" secondname="petrov"/>
+            <item cost="1500.0" name="caesar"/>
+            <item cost="150.0" name="water"/>
+            <totalcost>1650.0</totalcost>
+        </order>
+        <order>
+            <officiant firstname="ivan" secondname="ivanov"/>
+            <item cost="1500.0" name="sweat bread"/>
+            <item cost="300.0"/>
+            <totalcost>1800.0</totalcost>
+        </order>
+        <order>
+            <officiant firstname="ivan" secondname="ivanov"/>
+            <item cost="500.0"/>
+            <totalcost>500.0</totalcost>
+        </order>
+    </date>
+</restaurant>
