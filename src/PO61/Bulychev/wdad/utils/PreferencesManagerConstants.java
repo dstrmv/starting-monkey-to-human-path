@@ -8,5 +8,6 @@ public class PreferencesManagerConstants {
     public static final String POLICY_PATH = "appconfig/rmi/client/policypath";
     public static final String USE_CODEBASE_ONLY = "appconfig/rmi/client/usecodebaseonly";
     public static final String CLASS_PROVIDER = "appconfig/rmi/classprovider";
+    public static final String BINDED_OBJECT = "appconfig/rmi/server/bindedobject";
 
 }

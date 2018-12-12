@@ -13,7 +13,7 @@ public class XmlDataManagerImpl implements XmlDataManager {
     XmlTask xmlTask;
 
     public XmlDataManagerImpl() {
-        xmlTask = new XmlTask("PO61/Bulychev/wdad/learn/xml/restFirstCorrect.xml");
+        xmlTask = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restFirstCorrect.xml");
     }
 
     @Override

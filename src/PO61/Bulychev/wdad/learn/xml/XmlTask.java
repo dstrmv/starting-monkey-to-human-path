@@ -25,7 +25,7 @@ public class XmlTask {
             JAXBContext jaxbContext = JAXBContext.newInstance(Restaurant.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             restaurant = (Restaurant) unmarshaller.unmarshal(file);
-            System.out.println(restaurant);
+            //System.out.println(restaurant);
             System.out.println();
             System.out.println();
             System.out.println();

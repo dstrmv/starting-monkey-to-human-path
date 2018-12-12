@@ -26,7 +26,7 @@ public class PreferencesManager {
     private Document document;
     private List<String> keys;
 
-    public PreferencesManager() {
+    private PreferencesManager() {
         loadxml(xmlpath);
         xPathFactory = XPathFactory.newInstance();
         keys = new ArrayList<>();
@@ -36,6 +36,7 @@ public class PreferencesManager {
         keys.add(PreferencesManagerConstants.POLICY_PATH);
         keys.add(PreferencesManagerConstants.USE_CODEBASE_ONLY);
         keys.add(PreferencesManagerConstants.CLASS_PROVIDER);
+        keys.add(PreferencesManagerConstants.BINDED_OBJECT);
     }
 
     public static PreferencesManager getInstance() {
@@ -79,19 +80,11 @@ public class PreferencesManager {
         String xpathkey = "appconfig/rmi/server/bindedobject";
         XPath xpath = xPathFactory.newXPath();
         XPathExpression expr = null;
-        NodeList nodelist = null;
+        Node node = null;
         try {
             expr = xpath.compile(xpathkey);
-            nodelist = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
-            Element element;
-            for (int i = 0; i < nodelist.getLength(); i++) {
-                element = (Element) nodelist.item(i);
-               if ( element.getAttribute("name").equals(name)) {
-                   element.getParentNode().removeChild(element);
-                   savexml();
-                   return;
-               }
-            }
+            node = (Node) expr.evaluate(document, XPathConstants.NODE);
+            node.getParentNode().removeChild(node);
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }
