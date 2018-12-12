@@ -103,9 +103,6 @@ public class XmlTask {
     }
 
 
-
-
-
     public void changeOfficiantName(Officiant oldOfficiant, Officiant newOfficiant) {
         this.changeOfficiantName(oldOfficiant.getFirstName(), oldOfficiant.getSecondName(),
                 newOfficiant.getFirstName(), newOfficiant.getSecondName());
@@ -147,8 +144,23 @@ public class XmlTask {
     }
 
     public LocalDate lastOfficiantWorkDate(Officiant officiant) {
-
-
+        LocalDate lastDate = null;
+        List<RestDate> dates = restaurant.getDates();
+        List<Order> orders;
+        for (RestDate date : dates) {
+            orders = date.getOrders();
+            for (Order order : orders) {
+                if (order.getOfficiant().equals(officiant)) {
+                    if (lastDate == null || lastDate.isBefore(lastDate)) {
+                        lastDate = date.getDate();
+                    }
+                }
+            }
+        }
+        if (lastDate == null) {
+            throw new RuntimeException("no date");
+        }
+        return lastDate;
     }
 
 }

@@ -31,8 +31,6 @@ public class XmlDataManagerImpl implements XmlDataManager {
         xmlTask.changeOfficiantName(oldOfficiant, newOfficiant);
     }
 
-
-
     @Override
     public List<Order> getOrders(LocalDate date) throws RemoteException {
         return xmlTask.getOrders(date);
