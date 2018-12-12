@@ -38,4 +38,17 @@ public class Officiant {
     public String toString() {
         return "officiant " + firstName + " " + secondName;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Officiant)) return false;
+        Officiant off = (Officiant) obj;
+        return this.firstName.equals(off.firstName) && this.secondName.equals(off.secondName);
+    }
+
+    @Override
+    public int hashCode() {
+        return firstName.hashCode() ^ secondName.hashCode();
+    }
 }

@@ -26,7 +26,7 @@ public class PreferencesManager {
     private Document document;
     private List<String> keys;
 
-    private PreferencesManager() {
+    public PreferencesManager() {
         loadxml(xmlpath);
         xPathFactory = XPathFactory.newInstance();
         keys = new ArrayList<>();
