@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE appconfig SYSTEM "appconfig.dtd">
+<appconfig>
+    <rmi>
+        <server>
+            <registry>
+                <createregistry>yes</createregistry>
+                <registryaddress>localhost</registryaddress>
+                <registryport>1234</registryport>
+            </registry>
+
+        </server>
+        <client>
+            <policypath>client2.policy</policypath>
+            <usecodebaseonly>yes</usecodebaseonly>
+        </client>
+        <classprovider>http://www.yourhost.free.ru/cp/cp.jar</classprovider>
+    </rmi>
+</appconfig>
