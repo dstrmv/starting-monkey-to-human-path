@@ -1,13 +1,14 @@
 package PO61.Bulychev.wdad.learn.xml;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RestDate {
+public class RestDate implements Serializable {
     @XmlTransient
     private LocalDate date;
     @XmlElement(name = "order")
@@ -68,6 +69,18 @@ public class RestDate {
         return date.getYear();
     }
 
+    public void setDay(int day) {
+        this.date = this.date.withDayOfMonth(day);
+    }
+
+    public void setMonth(int month) {
+        this.date = this.date.withMonth(month);
+    }
+
+    public void setYear(int year) {
+        this.date = this.date.withYear(year);
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof RestDate)) {
@@ -80,4 +93,5 @@ public class RestDate {
         }
         return false;
     }
+
 }

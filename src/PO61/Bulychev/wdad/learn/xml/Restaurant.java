@@ -57,4 +57,12 @@ public class Restaurant {
         }
         return sb.toString();
     }
+
+    public void checkTotalCost() {
+        for (RestDate date: dates) {
+            for (Order order: date.getOrders()) {
+                order.checkTotalCost();
+            }
+        }
+    }
 }

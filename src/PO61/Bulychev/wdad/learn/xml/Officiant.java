@@ -1,9 +1,10 @@
 package PO61.Bulychev.wdad.learn.xml;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Officiant {
+public class Officiant implements Serializable {
 
     @XmlAttribute(name = "firstname")
     private String firstName;
@@ -37,5 +38,18 @@ public class Officiant {
     @Override
     public String toString() {
         return "officiant " + firstName + " " + secondName;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) return false;
+        if (!(obj instanceof Officiant)) return false;
+        Officiant off = (Officiant) obj;
+        return this.firstName.equals(off.firstName) && this.secondName.equals(off.secondName);
+    }
+
+    @Override
+    public int hashCode() {
+        return firstName.hashCode() ^ secondName.hashCode();
     }
 }

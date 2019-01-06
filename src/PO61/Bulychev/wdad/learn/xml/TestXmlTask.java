@@ -14,10 +14,10 @@ public class TestXmlTask {
         task.changeOfficiantName("ivan", "ivanov", "sidor", "sidorov");
 
         //try {
-       //     XmlTask task2 = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restSecondIncorrect.xml");
-      //  } catch (Exception e) {
-      //      System.out.println("EXCEPTION: ERRORS IN XML");
-      //  }
+        //     XmlTask task2 = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restSecondIncorrect.xml");
+        //  } catch (Exception e) {
+        //      System.out.println("EXCEPTION: ERRORS IN XML");
+        //  }
 
     }
 }

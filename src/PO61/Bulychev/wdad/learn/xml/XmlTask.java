@@ -1,19 +1,11 @@
 package PO61.Bulychev.wdad.learn.xml;
 
-import org.w3c.dom.*;
-import org.xml.sax.SAXException;
-
-import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
+import java.io.File;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -33,25 +25,28 @@ public class XmlTask {
             JAXBContext jaxbContext = JAXBContext.newInstance(Restaurant.class);
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
             restaurant = (Restaurant) unmarshaller.unmarshal(file);
-            System.out.println(restaurant);
-            System.out.println();
-            System.out.println();
-            System.out.println();
+            restaurant.checkTotalCost();
 
         } catch (JAXBException e) {
             e.printStackTrace();
         }
     }
 
-    public double earningsTotal(String officiantSecondName, Calendar calendar) {
-
-        double earningsTotal = 0;
+    private LocalDate calendarToLocalDate(Calendar calendar) {
 
         int day = calendar.get(Calendar.DAY_OF_MONTH);
         int month = calendar.get(Calendar.MONTH);
         int year = calendar.get(Calendar.YEAR);
 
-        LocalDate date = LocalDate.of(year, month, day);
+        return LocalDate.of(year, month, day);
+
+    }
+
+    public double earningsTotal(String officiantSecondName, Calendar calendar) {
+
+        LocalDate date = calendarToLocalDate(calendar);
+
+        double earningsTotal = 0;
 
         for (RestDate restDate : restaurant.getDates()) {
             if (restDate.getDate().equals(date)) {
@@ -68,15 +63,9 @@ public class XmlTask {
 
     public void removeDay(Calendar calendar) {
 
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
-        LocalDate localDate = LocalDate.of(year, month, day);
+        LocalDate date = calendarToLocalDate(calendar);
+        removeDay(date);
 
-        restaurant.removeDate(localDate);
-        File file = new File(path);
-
-        marshal(file);
     }
 
     public void changeOfficiantName(String oldFirstName, String oldSecondName,
@@ -108,6 +97,67 @@ public class XmlTask {
         } catch (JAXBException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public void changeOfficiantName(Officiant oldOfficiant, Officiant newOfficiant) {
+        this.changeOfficiantName(oldOfficiant.getFirstName(), oldOfficiant.getSecondName(),
+                newOfficiant.getFirstName(), newOfficiant.getSecondName());
+    }
+
+    public void removeDay(LocalDate date) {
+
+        restaurant.removeDate(date);
+        File file = new File(path);
+
+        marshal(file);
+    }
+
+    public double earningsTotal(Officiant officiant, LocalDate date) {
+
+        double earningsTotal = 0;
+
+        for (RestDate restDate : restaurant.getDates()) {
+            if (restDate.getDate().isEqual(date)) {
+                for (Order order : restDate.getOrders()) {
+                    if (order.getOfficiant().equals(officiant)) {
+                        earningsTotal += order.getTotalCost();
+                    }
+                }
+            }
+        }
+
+        return earningsTotal;
+
+    }
+
+    public List<Order> getOrders(LocalDate date) {
+        for (RestDate rd : restaurant.getDates()) {
+            if (rd.getDate().equals(date)) {
+                return rd.getOrders();
+            }
+        }
+        throw new RuntimeException("wrong date");
+    }
+
+    public LocalDate lastOfficiantWorkDate(Officiant officiant) {
+        LocalDate lastDate = null;
+        List<RestDate> dates = restaurant.getDates();
+        List<Order> orders;
+        for (RestDate date : dates) {
+            orders = date.getOrders();
+            for (Order order : orders) {
+                if (order.getOfficiant().equals(officiant)) {
+                    if (lastDate == null || date.getDate().isAfter(lastDate)) {
+                        lastDate = date.getDate();
+                    }
+                }
+            }
+        }
+        if (lastDate == null) {
+            throw new RuntimeException("no date");
+        }
+        return lastDate;
     }
 
 }

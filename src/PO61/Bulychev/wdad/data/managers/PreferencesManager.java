@@ -1,5 +1,6 @@
 package PO61.Bulychev.wdad.data.managers;
 
+import PO61.Bulychev.wdad.utils.PreferencesManagerConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -29,12 +30,12 @@ public class PreferencesManager {
         loadxml(xmlpath);
         xPathFactory = XPathFactory.newInstance();
         keys = new ArrayList<>();
-        keys.add("appconfig/rmi/server/registry/createregistry");
-        keys.add("appconfig/rmi/server/registry/registryaddress");
-        keys.add("appconfig/rmi/server/registry/registryport");
-        keys.add("appconfig/rmi/client/policypath");
-        keys.add("appconfig/rmi/client/usecodebaseonly");
-        keys.add("appconfig/rmi/classprovider");
+        keys.add(PreferencesManagerConstants.CREATE_REGISTRY);
+        keys.add(PreferencesManagerConstants.REGISTRY_ADDRESS);
+        keys.add(PreferencesManagerConstants.REGISTRY_PORT);
+        keys.add(PreferencesManagerConstants.POLICY_PATH);
+        keys.add(PreferencesManagerConstants.USE_CODEBASE_ONLY);
+        keys.add(PreferencesManagerConstants.CLASS_PROVIDER);
     }
 
     public static PreferencesManager getInstance() {
@@ -49,6 +50,11 @@ public class PreferencesManager {
 
     public String getProperty(String key) {
         return getNode(key).getTextContent();
+    }
+
+    public String getAttribute(String key, String attrName) {
+        Element element = (Element) getNode(key);
+        return element.getAttribute(attrName);
     }
 
     public Properties getProperties() {
@@ -78,19 +84,12 @@ public class PreferencesManager {
         String xpathkey = "appconfig/rmi/server/bindedobject";
         XPath xpath = xPathFactory.newXPath();
         XPathExpression expr = null;
-        NodeList nodelist = null;
+        Node node = null;
         try {
             expr = xpath.compile(xpathkey);
-            nodelist = (NodeList) expr.evaluate(document, XPathConstants.NODESET);
-            Element element;
-            for (int i = 0; i < nodelist.getLength(); i++) {
-                element = (Element) nodelist.item(i);
-               if ( element.getAttribute("name").equals(name)) {
-                   element.getParentNode().removeChild(element);
-                   savexml();
-                   return;
-               }
-            }
+            node = (Node) expr.evaluate(document, XPathConstants.NODE);
+            Node parent = node.getParentNode();
+            parent.removeChild(node);
         } catch (XPathExpressionException e) {
             e.printStackTrace();
         }

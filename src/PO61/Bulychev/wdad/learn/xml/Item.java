@@ -1,9 +1,10 @@
 package PO61.Bulychev.wdad.learn.xml;
 
 import javax.xml.bind.annotation.*;
+import java.io.Serializable;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
-public class Item {
+public class Item implements Serializable {
     private static final String NO_NAME = "";
 
     private String name;
@@ -38,6 +39,10 @@ public class Item {
     @XmlAttribute(name = "name")
     private String getEmptyNameToNull() {
         return name.equals("") ? null : name;
+    }
+
+    private void setEmptyNameToNull(String name) {
+        setName(name);
     }
 
     @Override

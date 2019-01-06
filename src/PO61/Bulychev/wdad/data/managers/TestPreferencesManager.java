@@ -7,7 +7,7 @@ public class TestPreferencesManager {
         System.out.println(manager.getProperty("appconfig.rmi.server.registry.createregistry"));
         manager.setProperty("appconfig.rmi.server.registry.createregistry", "yes");
         System.out.println(manager.getProperty("appconfig.rmi.server.registry.createregistry"));
-       // manager.addBindedObject("object", "className");
+        // manager.addBindedObject("object", "className");
         manager.removeBindedObject("object");
         //System.out.println(manager.getRegistryAddressProperty());
         //System.out.println(manager.getRegistryPortProperty());
