@@ -16,4 +16,13 @@
         </client>
         <classprovider>http://www.yourhost.free.ru/cp/cp.jar</classprovider>
     </rmi>
+    <datasource>
+        <classname>com.mysql.cj.jdbc.MysqlDataSource</classname>
+        <drivertype>mysql</drivertype>
+        <hostName>127.0.0.1</hostName>
+        <port>3306</port>
+        <DBName>restaurant</DBName>
+        <user>root</user>
+        <pass>root</pass>
+    </datasource>
 </appconfig>
