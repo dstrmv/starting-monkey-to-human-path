@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +30,37 @@ public class JdbcDataManager implements DataManager {
 
     @Override
     public double earningsTotal(Officiant officiant, LocalDate date) {
-        return 0;
+
+        double result = 0;
+
+        String dateStr = date.format(DateTimeFormatter.ISO_DATE);
+        Statement stmt = null;
+        String query = "SELECT sum(cost*quantity) as total " +
+                "FROM items_orders " +
+                "INNER JOIN items i on items_orders.items_id = i.id " +
+                "INNER JOIN orders o on items_orders.orders_id = o.id " +
+                "INNER JOIN officiants o2 on o.officiant_id = o2.id " +
+                "WHERE first_name = '" + officiant.getFirstName() + "' && second_name = '" + officiant.getSecondName() + "'" +
+                "&& date = '" + dateStr + "'" +
+                "GROUP BY first_name";
+        try {
+            stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                result = rs.getDouble(1);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return result;
     }
 
     @Override
@@ -55,10 +86,9 @@ public class JdbcDataManager implements DataManager {
                 "INNER JOIN orders o on items_orders.orders_id = o.id " +
                 "INNER JOIN officiants o2 on o.officiant_id = o2.id " +
                 "WHERE date = " + dateStr;
-        try {
-            this.con.setAutoCommit(false);
-            stmt = con.createStatement();
 
+        try {
+            stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             Order order;
