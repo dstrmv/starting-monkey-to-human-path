@@ -128,23 +128,28 @@ public class JdbcDataManager implements DataManager {
         return result;
     }
 
-    public void test() {
-        try {
-            con = source.getConnection();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
 
+    @Override
+    public LocalDate lastOfficiantWorkDate(Officiant officiant) {
+        LocalDate result = null;
 
         Statement stmt = null;
-        String query = "SELECT t.* FROM restaurant.items t";
+        String query = "SELECT MAX(date) as last " +
+                "FROM items_orders " +
+                "INNER JOIN items i on items_orders.items_id = i.id " +
+                "INNER JOIN orders o on items_orders.orders_id = o.id " +
+                "INNER JOIN officiants o2 on o.officiant_id = o2.id " +
+                "WHERE first_name = '" + officiant.getFirstName() + "' && second_name = '" + officiant.getSecondName() + "' " +
+                "GROUP BY first_name ";
+
         try {
             stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                System.out.println("hey2");
+                result = LocalDate.parse(rs.getString(1), DateTimeFormatter.ISO_DATE);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -155,11 +160,14 @@ public class JdbcDataManager implements DataManager {
             }
         }
 
+        if (result == null) {
+            throw new RuntimeException("officiant dont have work date");
+        }
+
+        return result;
     }
 
-    @Override
-    public LocalDate lastOfficiantWorkDate(Officiant officiant) {
-        return null;
-    }
 
 }
+
+

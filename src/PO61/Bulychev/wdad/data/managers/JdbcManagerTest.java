@@ -12,8 +12,8 @@ public class JdbcManagerTest {
         //List<Order> orders = manager.getOrders(date);
         //orders.forEach(System.out::println);
         //manager.test();
-        Officiant officiant = new Officiant("petr", "petrov");
-        double v = manager.earningsTotal(officiant, date);
+        Officiant officiant = new Officiant("ivan", "ivanov");
+        LocalDate v = manager.lastOfficiantWorkDate(officiant);
         System.out.println(v);
     }
 }
