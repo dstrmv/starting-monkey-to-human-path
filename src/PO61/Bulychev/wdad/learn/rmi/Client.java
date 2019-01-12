@@ -1,11 +1,11 @@
 package PO61.Bulychev.wdad.learn.rmi;
 
+import PO61.Bulychev.wdad.data.managers.DataManager;
 import PO61.Bulychev.wdad.data.managers.PreferencesManager;
 import PO61.Bulychev.wdad.learn.xml.Officiant;
 import PO61.Bulychev.wdad.utils.PreferencesManagerConstants;
 
 import java.rmi.NotBoundException;
-import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -34,7 +34,7 @@ public class Client {
         String classAttr = manager.getAttribute(PreferencesManagerConstants.BINDED_OBJECT, "class");
 
         Registry registry = LocateRegistry.getRegistry(registryAddress, registryPort);
-        XmlDataManager datamanager = (XmlDataManager) registry.lookup(nameAttr);
+        DataManager datamanager = (DataManager) registry.lookup(nameAttr);
 
         datamanager.changeOfficiantName(new Officiant("sidor", "sidorov"), new Officiant("ivan", "ivanov"));
         System.out.println(datamanager.earningsTotal(new Officiant("ivan", "ivanov"), LocalDate.of(2010, 1, 1)));

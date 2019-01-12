@@ -1,5 +1,6 @@
 package PO61.Bulychev.wdad.learn.rmi;
 
+import PO61.Bulychev.wdad.data.managers.RmiDataManager;
 import PO61.Bulychev.wdad.data.managers.PreferencesManager;
 import PO61.Bulychev.wdad.utils.PreferencesManagerConstants;
 
@@ -13,7 +14,7 @@ import java.util.Properties;
 
 public class Server {
 
-    private static final String BINDED_OBJECT_NAME = "XmlDataManager";
+    private static final String BINDED_OBJECT_NAME = "DataManager";
 
 
     public static void main(String[] args) throws RemoteException, AlreadyBoundException, InterruptedException {
@@ -47,7 +48,7 @@ public class Server {
             registry = LocateRegistry.createRegistry(port);
         }
 
-        XmlDataManagerImpl dataManager = new XmlDataManagerImpl();
+        RmiDataManager dataManager = new RmiDataManager();
         Remote stub = UnicastRemoteObject.exportObject(dataManager, 0);
         registry.bind(BINDED_OBJECT_NAME, stub);
         manager.addBindedObject(BINDED_OBJECT_NAME, dataManager.getClass().getCanonicalName());

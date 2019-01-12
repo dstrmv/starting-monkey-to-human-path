@@ -6,7 +6,7 @@ import com.mysql.cj.jdbc.MysqlDataSource;
 
 import javax.sql.DataSource;
 
-public class DataSourceFactory {
+public class DataSourceFactory { 
 
     public static DataSource createDataSource() {
 
@@ -33,9 +33,11 @@ public class DataSourceFactory {
         //jdbc:mysql://localhost:3306/restaurant
         // с портом не работает
         String url = "jdbc:" + driverType + "://" + host
-                // + ":" + port
+               // + ":" + port
                 + "/" + dbName;
-        source.setUrl(url);
+        source.setURL(url);
+
+        source.setPort(3306);
         source.setUser(user);
         source.setPassword(password);
         return source;

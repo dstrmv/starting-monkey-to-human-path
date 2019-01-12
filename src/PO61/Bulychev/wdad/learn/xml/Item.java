@@ -8,7 +8,6 @@ public class Item implements Serializable {
     private static final String NO_NAME = "";
 
     private String name;
-
     private double cost;
 
     public Item() {

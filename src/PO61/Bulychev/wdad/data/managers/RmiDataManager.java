@@ -1,4 +1,4 @@
-package PO61.Bulychev.wdad.learn.rmi;
+package PO61.Bulychev.wdad.data.managers;
 
 import PO61.Bulychev.wdad.learn.xml.Officiant;
 import PO61.Bulychev.wdad.learn.xml.Order;
@@ -8,11 +8,11 @@ import java.rmi.RemoteException;
 import java.time.LocalDate;
 import java.util.List;
 
-public class XmlDataManagerImpl implements XmlDataManager {
+public class RmiDataManager implements DataManager {
 
     XmlTask xmlTask;
 
-    public XmlDataManagerImpl() {
+    public RmiDataManager() {
         xmlTask = new XmlTask("src/PO61/Bulychev/wdad/learn/xml/restFirstCorrect.xml");
     }
 
