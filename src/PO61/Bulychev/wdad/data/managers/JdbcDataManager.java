@@ -65,13 +65,44 @@ public class JdbcDataManager implements DataManager {
 
     @Override
     public void removeDay(LocalDate date) {
+        Statement stmt = null;
+        try {
+            stmt = con.createStatement();
+            stmt.addBatch(String.format("DELETE FROM orders WHERE date = '%s'", date.format(DateTimeFormatter.ISO_DATE)));
+            stmt.executeBatch();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
     public void changeOfficiantName(Officiant oldOfficiant, Officiant newOfficiant) {
+        Statement stmt = null;
+        try {
+            stmt = con.createStatement();
+            stmt.addBatch(String.format("UPDATE officiants SET first_name = '%s', second_name = '%s' WHERE first_name = '%s' && second_name = '%s'",
+                    newOfficiant.getFirstName(), newOfficiant.getSecondName(), oldOfficiant.getFirstName(), oldOfficiant.getSecondName()
+            ));
+            stmt.executeBatch();
 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
+
 
     @Override
     public List<Order> getOrders(LocalDate date) {

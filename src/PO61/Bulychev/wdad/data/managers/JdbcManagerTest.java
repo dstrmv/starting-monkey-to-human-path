@@ -13,7 +13,7 @@ public class JdbcManagerTest {
         //orders.forEach(System.out::println);
         //manager.test();
         Officiant officiant = new Officiant("ivan", "ivanov");
-        LocalDate v = manager.lastOfficiantWorkDate(officiant);
-        System.out.println(v);
+        Officiant newOfficiant = new Officiant("karl", "karlov");
+        manager.changeOfficiantName(officiant, newOfficiant);
     }
 }
