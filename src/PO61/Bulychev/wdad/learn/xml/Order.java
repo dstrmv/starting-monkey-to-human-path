@@ -4,7 +4,6 @@ package PO61.Bulychev.wdad.learn.xml;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlType;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,6 +60,7 @@ public class Order implements Serializable {
 
     public void addItem(Item item) {
         this.items.add(item);
+        this.totalCost += item.getCost();
     }
 
     @Override

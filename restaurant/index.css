@@ -1,0 +1,120 @@
+body {
+    background-color: black;
+    margin: 0 20%;
+}
+
+.header {
+    color: lightgreen;
+    /*border: 2px solid red;*/
+}
+
+.header .logo {
+    width: 9%;
+    /* border: 2px solid green; */
+}
+
+.logo img {
+    width: 100%;
+    height: auto;
+}
+
+.header .text {
+    padding: 10px 0;
+    width: 77%;
+    /* border: 2px solid blue; */
+    text-align: center;
+}
+
+.restname {
+    font-size: 20pt;
+}
+
+.header .cart {
+    padding: 6px 0;
+    width: 13%;
+    /* border: 2px solid yellow; */
+    text-align: center;
+}
+
+.username {
+    font-size: 10pt;
+}
+
+.header .logo, 
+.header .text,
+.header .cart {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.maincontainer {
+    background-color: lightgoldenrodyellow;
+    color: black;
+    font-size: 14pt;
+
+}
+
+.dishtypes {
+    padding-top: 1px;
+    text-align: center;  
+    height: 30px;
+}
+
+.first, .second, .dessert, .etc {
+    padding-top: 5px;
+    height: 100%;
+    width: 24%;
+}
+
+.second, .dessert, .etc {
+    background-color: lightgreen;
+}
+
+.dishtypes .first,
+.dishtypes .second,
+.dishtypes .dessert,
+.dishtypes .etc {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.selecteddish {
+    padding-top: 15px;
+    text-align: center;
+    height: 15px;
+}
+
+.itemscontainer {
+    padding: 10px;
+    /* margin: 10px 0; */
+}
+
+.dishitem {
+    padding: 10px;
+    margin: 10px;
+    background-color: lightgreen;
+}
+
+.dishname {
+    
+}
+
+.dishimg,
+.textopt,
+.quantity,
+.button {
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.textopt {
+    width : 40%;
+}
+
+.options {
+    width: 100%;
+}
+
+.optselect {
+    width: 100%; 
+}
